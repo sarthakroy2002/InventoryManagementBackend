@@ -6,7 +6,10 @@
 CREATE TABLE categories (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL UNIQUE,
-    description TEXT
+    description TEXT,
+    active_flag TEXT NOT NULL DEFAULT 'Y',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 ```
 
@@ -23,6 +26,7 @@ CREATE TABLE products (
     cost_price REAL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    active_flag TEXT NOT NULL DEFAULT 'Y',
     FOREIGN KEY (category_id) REFERENCES categories(id)
 );
 ```
@@ -37,7 +41,9 @@ CREATE TABLE suppliers (
     phone TEXT,
     email TEXT,
     address TEXT,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    active_flag TEXT NOT NULL DEFAULT 'Y',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 ```
 
@@ -50,7 +56,9 @@ CREATE TABLE customers (
     phone TEXT,
     email TEXT,
     address TEXT,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    active_flag TEXT NOT NULL DEFAULT 'Y',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 ```
 
@@ -62,7 +70,9 @@ CREATE TABLE inventory (
     product_id INTEGER NOT NULL UNIQUE,
     quantity INTEGER NOT NULL DEFAULT 0,
     location TEXT,
-    last_updated DATETIME DEFAULT CURRENT_TIMESTAMP,
+    active_flag TEXT NOT NULL DEFAULT 'Y',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (product_id) REFERENCES products(id)
 );
 ```
@@ -76,6 +86,9 @@ CREATE TABLE purchases (
     purchase_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     total_amount REAL,
     status TEXT DEFAULT 'COMPLETED',
+    active_flag TEXT NOT NULL DEFAULT 'Y',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (supplier_id) REFERENCES suppliers(id)
 );
 ```
@@ -89,6 +102,9 @@ CREATE TABLE purchase_items (
     product_id INTEGER NOT NULL,
     quantity INTEGER NOT NULL,
     cost_price REAL NOT NULL,
+    active_flag TEXT NOT NULL DEFAULT 'Y',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (purchase_id) REFERENCES purchases(id),
     FOREIGN KEY (product_id) REFERENCES products(id)
 );
@@ -107,6 +123,9 @@ CREATE TABLE sales (
     due_amount REAL DEFAULT 0,
     payment_method TEXT,
     status TEXT DEFAULT 'COMPLETED',
+    active_flag TEXT NOT NULL DEFAULT 'Y',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (customer_id) REFERENCES customers(id)
 );
 ```
@@ -120,6 +139,9 @@ CREATE TABLE sale_items (
     product_id INTEGER NOT NULL,
     quantity INTEGER NOT NULL,
     selling_price REAL NOT NULL,
+    active_flag TEXT NOT NULL DEFAULT 'Y',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (sale_id) REFERENCES sales(id),
     FOREIGN KEY (product_id) REFERENCES products(id)
 );
@@ -134,7 +156,9 @@ CREATE TABLE stock_movements (
     change_type TEXT NOT NULL, -- PURCHASE, SALE, ADJUSTMENT
     quantity INTEGER NOT NULL,
     reference_id INTEGER,
+    active_flag TEXT NOT NULL DEFAULT 'Y',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (product_id) REFERENCES products(id)
 );
 ```

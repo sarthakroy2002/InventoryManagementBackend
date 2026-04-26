@@ -2,6 +2,9 @@ package com.sarthak.inventorymgmt.entity;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
@@ -17,6 +20,8 @@ import lombok.Data;
 @Entity
 @Data
 @Table(name = "inventory")
+@SQLDelete(sql = "UPDATE inventory SET active_flag = 'N' WHERE id = ?")
+@SQLRestriction("active_flag = 'Y'")
 public class Inventory {
 
     @Id
@@ -34,8 +39,15 @@ public class Inventory {
     @Column(name = "location")
     private String location;
 
+    @Column(name = "active_flag", nullable = false)
+    private String activeFlag = "Y";
+
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+
     @UpdateTimestamp
-    @Column(name = "last_updated")
-    private LocalDateTime lastUpdated;
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 }
     
