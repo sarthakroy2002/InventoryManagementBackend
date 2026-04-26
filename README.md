@@ -31,7 +31,7 @@ A Inventory Management System built using Spring Boot and SQLite. This project h
 
 ```cmd
 git clone https://github.com/sarthakroy2002/InventoryManagementBackend
-cd inventory-management
+cd InventoryManagementBackend
 ```
 
 ### 2. Configure Database
